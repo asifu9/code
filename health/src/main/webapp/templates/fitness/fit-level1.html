@@ -1,0 +1,25 @@
+<h3>Choose your options</h3>
+<div ng-controller="level1Controller" ng-init="getItems()">
+	<table border="0">
+		<tr>
+			<td ng-repeat="item in items" style="padding-right: 25px;">
+				<table style="border-style: inset;border-width:thin;border-color: grey;">
+					<tr>
+						<td>
+							<a href="#level2/{{item.gender}}">
+								<img src="images/{{item.image}}" width="150px" height="170px">
+							</a>
+						</td>
+					</tr>
+					<tr>
+						<td align="center" style="background-color: #F7F7F7;">
+							<span>{{item.gender}}</span>
+						</td>
+					</tr>
+				</table>
+				
+			</td>
+		</tr>
+	</table>
+
+</div>

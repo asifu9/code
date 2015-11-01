@@ -1,0 +1,121 @@
+<script type="text/template" id="data-protection-policy-template">
+	<table style="margin-top:15px;width:100%;">
+		<tr>
+			<td colspan="2">
+				<ol class="breadcrumb" style="margin-bottom:5px;">
+					<li><a href="#/providers">Content Providers</a></li>
+					<li class="active"><%= ContentProviderName %></li>					
+				</ol>
+			</td>
+		</tr>
+		<tr>
+			<td>				
+				<h4>Data Protection for <%= ContentProviderName %></h4>								
+			</td>
+			<td style="text-align: right;">			
+				<a href="#/providers" class="btn btn-link">Back</a>				
+			</td>
+		</tr>
+	</table>
+		
+	<%  
+	  var id, contentProvider, contentCategory="All", dataProtectionRequired, dataProtectionType, gracePeriod, maintenancePolicyType, maintenancePolicySchedule,lastMaintenanceDate;
+	  if(policy != null) { 
+	  	contentProvider = policy.get("ContentProviderName");
+        contentCategory = policy.get("ContentCategory");
+		dataProtectionRequired = policy.get("DataProtectionRequired");
+		dataProtectionType = policy.get("DataProtectionType");
+		gracePeriod = policy.get("GracePeriod");
+		maintenancePolicyType = policy.get("MaintenancePolicy");
+		maintenancePolicySchedule = policy.get("MaintenanceSchedule");
+		lastMaintenanceDate = policy.get("LastMaintenanceDate");
+		id=policy.get("id");		
+	  } 
+  	%>
+
+	<form id="Data-Policy-Form" class="form-horizontal well" style="padding:8px;margin-top:8px;margin-left:0px; margin-right:0px;margin-bottom:0px;" role="form">		
+		<div class="form-group">
+			<label class="col-xs-2 control-label">Content Category</label>
+			<div class="col-xs-4">
+				<select class="form-control" id="ContentCategoryView" name="ContentCategoryView" disabled>
+						<option value="All">All</option>
+				</select>
+			</div>
+		</div>		
+		<div class="form-group">
+			<label class="col-xs-2 control-label">Status</label>
+			<div class="col-xs-4" style="padding-top:8px;"><%= Status %></div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<label class="control-label" style="margin-top:0px; margin-bottom:0px;text-align:left;padding-top:0px;padding-bottom:0px;">Data Protection Controls</label>				
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-2 control-label">Protection Required</label>
+					<div class="col-xs-4">
+						<select class="form-control" id="DataProtectionRequired" name="DataProtectionRequired" <%= (Status=='Inactive') ? 'disabled' : '' %> >
+								<option value="false">No</option>
+								<option value="true" <%= (dataProtectionRequired == true) ? 'selected' : '' %> >Yes</option>						
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">Type</label>
+					<div class="col-xs-4" >						
+						<select class="form-control" id="DataProtectionType" name="DataProtectionType" <%= (Status == 'Inactive' || dataProtectionRequired == false) ? 'disabled' : '' %>>
+								<option value="">Select</option>
+								<option value="128-Bit Encrypted Key" <%= (dataProtectionType == '128-Bit Encrypted Key') ? 'selected' : '' %> >128-Bit Encrypted Key</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">Grace Period</label>	
+					<div class="col-xs-4 input-group input-group-xs" style="padding-left:15px;padding-right:15px;">			
+						<input type="number" class="form-control" id="GracePeriod" name="GracePeriod" min="0" required placeholder="enter number of days" value="<%= (gracePeriod >= 0) ? gracePeriod : '' %>" <%= (Status == 'Inactive' || dataProtectionRequired == false)  ? 'disabled' : '' %>></input>
+						<span class="input-group-addon">Days</span>
+					</div>			 
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<label class="control-label" style="margin-top:0px; margin-bottom:0px;text-align:left;padding-top:0px;padding-bottom:0px;">Purge/Archive Controls</label>								
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-2 control-label">Select Option</label>
+					<div class="col-xs-4">
+						<select class="form-control" id="MaintenancePolicy" name="MaintenancePolicy" <%= (Status=='Inactive') ? 'disabled' : '' %>>
+								<option value="Archive">Archive</option>
+								<option value="Purge" <%= (maintenancePolicyType == 'Purge') ? 'selected' : '' %> >Purge</option>						
+						</select>
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="col-xs-2 control-label">Duration</label>	
+					<div class="col-xs-4 input-group" style="padding-left:15px;padding-right:15px;">			
+						<input type="number" class="form-control" id="MaintenanceSchedule" name="MaintenanceSchedule" min="1" required placeholder="enter number of days" value="<%= (maintenancePolicySchedule != 0) ? maintenancePolicySchedule : '' %>" <%= (Status=='Inactive') ? 'disabled' : '' %>></input>
+						<span class="input-group-addon">Days</span> 
+					</div>
+					
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2 control-label">Last Run Date</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" name="maintenanceDateDummy" value="<%= (lastMaintenanceDate != null) ? lastMaintenanceDate : '' %>" disabled />	
+					</div>		
+				</div>
+			</div>
+		</div>
+		<hr />
+		<button type="submit" id="submitPolicyBtn" class="btn btn-primary" <%= (Status=='Inactive') ? 'disabled' : '' %>>Save</button>
+		<a href="#providers" class="btn btn-primary" id="cancelPolicyBtn">Cancel</a>
+		<input type="hidden" name="ContentProviderName" value="<%=ContentProviderName %>"/>
+		<input type="hidden" name="ContentCategory" value="All"/>
+		<input type="hidden" name="LastMaintenanceDate" value="<%=lastMaintenanceDate%>"/>
+		<% if(id != null) {%>
+			<input type="hidden" id="id" name="id" value="<%= id %>" />	
+		<% }; %>
+	</form>
+</script>

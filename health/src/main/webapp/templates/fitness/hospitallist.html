@@ -1,0 +1,33 @@
+<h3>Choose your program</h3>
+<div ng-controller="hosListController" ng-init="getHos()">
+	<table border="0" style="width: 98%;">
+		<tr ng-repeat="h in hos">
+		
+			<td style="padding-bottom: 5px;vertical-align:top; width: 100%;border-bottom-style: inset;border-bottom-width:thin;border-bottom-color: #EEEEEE;">
+				<table style="width: 100%">
+					<tr>
+						<td width="100px">
+							<img src="{{h.image}}" width="100px" height="70px">
+						</td>
+						<td valign="top">
+							<table>
+								<tr>
+									<td>
+										{{h.name}}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										{{h.city}}
+									</td>
+								</tr>
+							</table>
+						
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	
+</div>

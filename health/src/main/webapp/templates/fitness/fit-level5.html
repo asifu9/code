@@ -1,0 +1,38 @@
+<h3>Choose your program</h3>
+<div ng-controller="level5Controller" ng-init="getItems()">
+	<table style="background-color: #F7F7F7; ">
+		<tr>
+			<td style="padding-top: 5px;padding-bottom: 5px;padding-left: 10px;padding-right: 10px;">
+				<a href="{{myLevel1Path}}"> {{mylevel1}} </a> / <a href="{{myLevel2Path}}"> {{mylevel2}} </a> / <a href="{{myLevel3Path}}"> {{mylevel3}} </a> / <a href="{{myLevel4Path}}"> {{mylevel4}} </a>
+			</td>
+		</tr>
+	</table>
+	<br>
+	<table border="0">
+		<tr ng-repeat="item in items">
+		
+			<td style="padding-bottom: 5px;">
+				<table style="border-style: inset;border-width:thin;border-color: grey; background-color: #F7F7F7;">
+					<tr>
+						<td>
+							<input type="radio" name="choosePlan">
+						</td>
+						<td>
+							{{item.programName}}
+						</td>
+						<td>
+							{{item.diet}}
+						</td>
+						<td>
+							{{item.excise}}
+						</td>
+						<td>
+							{{item.lifeStyle}}
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	
+</div>

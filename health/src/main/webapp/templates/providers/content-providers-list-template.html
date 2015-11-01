@@ -1,0 +1,153 @@
+<script type="text/template" id="content-providers-list-template">
+	<table width="100%" style="margin-top:15px;">
+		<tr>
+			<td>
+				<ol class="breadcrumb" style="margin-bottom:5px;">
+					<li class="active">Content Providers</li>
+				</ol>
+			</td>
+		</tr>
+	</table>
+	<br/>
+	
+    <table id="content-providers-table" class="table table-striped table-bordered table-hover table-condensed">
+      <thead>
+        <tr>
+          <th>Provider Name</th> <th>Access Details</th> <th>Data Protection</th> <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% 
+		_.each(providers, function(provider) {
+			var cpname = provider.get('ContentProviderName');
+			var cpstatus = provider.get('Status');
+		%>
+        <tr>
+            <td>
+				<%= cpname %>
+			</td>
+			<td>
+				<button class="btn btn-link" data-toggle="modal" data-target="#popup" data-cp-name="<%= cpname %>">View</button>
+			</td>
+			<td>
+				<button class="btn btn-link" id="viewPolicyDetails" data-cp-name="<%= cpname %>" data-status="<%= cpstatus %>">View</button>
+			</td>
+			<td>
+				<%= cpstatus %>
+			</td>
+        </tr>
+        <% }); %>
+	  </tbody>
+    </table>
+	
+	<input type="hidden" id="selectedName" />
+	<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+						<span class="sr-only">Close</span>
+					</button>
+					<h4 align="center" class="modal-title" id="myModalLabel" />
+				</div>
+				
+				<div class="modal-body">
+					<table width="100%">
+						<thead>
+							<tr>
+								<th style="text-align: left; padding-left:0px; width:40%">Select Content Title/Category:</th> 
+								<th style="text-align: right; padding-right:0px">Status:</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<select class="form-control" id="category" name="category" disabled style="width: 30%;">
+										<option value="All">All</option>
+									</select>
+								</td>
+								<td>
+									<select class="form-control pull-right" id="statusDropDown" name="status" style="width: 30%;">
+										<option value="Active">Active</option>
+										<option value="Inactive">Inactive</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" style="padding-top:10px">
+									The same access details will be applicable for all content titles
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<br>
+					<table width="100%">
+						<thead>
+							<tr>
+								<th colspan="2" style="padding-left:0px">
+									Access Details for Selected Content Titles:
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Source URL<font color="red">*</font></td>
+								<td style="padding-top:10px">
+									<div id="urlDiv" class="form-group">
+										<input required type="text" size="50" class="form-control" id="contentSourceURL" />
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>Username</td>
+								<td>
+									<input type="text" id="username" class="form-control" placeholder="Username" style="width:40%;"/>
+								</td>
+							</tr>
+							<tr>
+								<td style="padding-top:10px">Password</td>
+								<td style="padding-top:10px">
+									<input type="text" id="password" class="form-control" placeholder="Password" style="width:40%;"/>
+								</td>
+							</tr>
+
+							<tr>
+								<td style="padding-top:10px">Grace Period</td>
+								<td style="padding-top:10px">
+									<input type="number" class="form-control" min="0" max="30" id="gracePeriod" style="width:40%;" />
+								</td>
+							</tr>
+
+							<tr>
+								<td width="25%">Cron Expression</td>
+								<td style="padding-top:10px;">
+									<table>
+										<tr>
+											<td style="width:40%;" >
+												<input size="25" type="text" id="cronExp" class="form-control"/>&nbsp;&nbsp;
+											</td>
+											<td>
+												<a target="_blank" href="http://www.cronmaker.com" class="btn btn-link">Create Cron Expression</a>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="modal-footer">
+					<div style="float:left;">
+						<span id="validateMsg" name="validateMsg" style="text-align: left;"></span>
+					</div>
+					<div style="float:right">
+						<button type="button" id="validate" class="btn btn-primary" name="validate">Validate</button>
+						<button type="button" id="save" class="btn btn-primary" name="save">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
